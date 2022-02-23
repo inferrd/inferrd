@@ -54,6 +54,6 @@ For general help using Inferrd, please refer to the official Inferrd documentati
 
 * [Discord](https://discord.gg/EequCErc6s) \(For live discussion with the Community and Inferrd team\)
 
-### Entreprise Edition
+## Entreprise Edition
 
 Are you looking for support and more advanced features such as RBAC, AutoScale, Multi-node deployments and A/B testing? [Contact us](mailto:theo@inferrd.com).
