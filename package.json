@@ -1,8 +1,6 @@
 {
-  "name": "api",
+  "name": "inferrd",
   "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev --respawn ./src/dev.ts",
     "dev:debug": "ts-node-dev --inspect --respawn ./src/dev.ts",
@@ -11,6 +9,7 @@
     "build": "tsc -p . --incremental --outDir ./dist",
     "nomad": "nomad agent -dev -config=./nomad/local.conf"
   },
+  "author": "Inferrd Inc.",
   "dependencies": {
     "@sentry/node": "^6.8.0",
     "@sentry/tracing": "^6.8.0",

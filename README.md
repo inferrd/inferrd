@@ -33,7 +33,7 @@ HOST=localhost
 Then run the two following commands to get started:
 
 ```
-git clone https://github.com/inferrd/oss.git
+git clone https://github.com/inferrd/inferrd.git
 cd inferrd
 docker-compose up
 ```
@@ -42,6 +42,7 @@ Now visit [http://localhost:3001](http://localhost:3001)
 
 ## Features
 
+* **Deploy form notebook**: Use the [Inferrd SDK](https://github.com/inferrd/sdk) to deploy from your notebook.
 * **Wide framework support**: Deploy TensorFlow, PyTorch, HuggingFace, ONNX, Scikit and XGBoost hassle free.
 * **GPU support**: GPU acceleration comes pre-configured out of the box.
 * **Monitoring**: Monitoring is available as soon as you make your first request. Prometheus monitoring is also available.
