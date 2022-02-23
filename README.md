@@ -43,10 +43,10 @@ Now visit [http://localhost:3001](http://localhost:3001)
 ## Features
 
 * **Wide framework support**: Deploy TensorFlow, PyTorch, HuggingFace, ONNX, Scikit and XGBoost hassle free.
-* **GPU Support**: GPU acceleration comes pre-configured out of the box.
+* **GPU support**: GPU acceleration comes pre-configured out of the box.
 * **Monitoring**: Monitoring is available as soon as you make your first request. Prometheus monitoring is also available.
 * **Versioning**: Keep track of all the versions you deploy and rollback anytime.
-* **Request Logging**: Inspect all requests coming into your model.
+* **Request logging**: Inspect all requests coming into your model.
 
 ## Community support
 
