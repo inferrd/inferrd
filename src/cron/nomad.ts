@@ -115,7 +115,6 @@ export async function checkNomadStatus() {
         await version.save()
 
         const user = await version.createdBy
-        const service = await version.service
 
         user.achievements = {
           ...user.achievements,

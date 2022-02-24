@@ -2,6 +2,10 @@ import { Version, VersionDeploymentStatus } from "../entity/Version";
 import { deployVersion, getDeploymentId } from "../services/nomad";
 
 export async function deployVersionToNomad(version: Version): Promise<void> {
+  if (!version) {
+    return
+  }
+
   const evalId = await deployVersion(version)
   const deploymentId = await getDeploymentId(evalId)
 

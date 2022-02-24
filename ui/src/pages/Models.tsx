@@ -4,7 +4,6 @@ import useSWR from 'swr'
 import { ApiService, ApiStack, ServiceType } from '../api.types'
 import { getFetcher } from '../api/api'
 import { TeamContext } from '../context/TeamManager'
-import NewService from '../modals/NewService'
 import { Plus } from 'react-feather'
 import moment from 'moment'
 import { UserContext } from '../context/UserManager'
@@ -21,19 +20,9 @@ const Models: React.FC = ({ }) => {
     refreshInterval: 5000
   })
 
-  const { data: stacks } = useSWR<ApiStack[]>(`/stacks`, getFetcher)
-
   const models = services?.filter(
     service => service.type == ServiceType.ML
   )
-
-  const handleCreateModel = async (stackId: string) => {
-    let modelName = 'New Model'
-
-    const model = await createService(team.id, modelName, stackId)
-
-    history.push(`/team/${team.id}/model/${model.id}`)
-  }
 
   return (
     <div className='container flex mx-auto gap-4'>

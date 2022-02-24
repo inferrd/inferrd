@@ -2,12 +2,13 @@ import { mutate, trigger } from "swr";
 import { ApiService, ServiceType } from "../api.types";
 import { post, del } from "./api";
 
-export async function createService(teamId: string, name: string, stackId: string, instanceId?: string, type: ServiceType = ServiceType.ML): Promise<ApiService> {
+export async function createService(teamId: string, name: string, stackId: string, desiredCpuHz: number, desiredRamMb: number): Promise<ApiService> {
   const result = await post<ApiService>(`/team/${teamId}/services`, {
     name,
     stackId,
-    instanceId,
-    type
+    desiredCpuHz,
+    desiredRamMb,
+    type: ServiceType.ML
   })
 
   if(result.error) {

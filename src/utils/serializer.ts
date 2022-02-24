@@ -9,7 +9,6 @@ import { Instance } from "../entity/Instances"
 import { getRequestContext } from "../als"
 import { Invite } from "../entity/Invite"
 import * as Stripe from 'stripe'
-import { Plan, PlanFeatures } from "../entity/Plan"
 import { MetricRollup } from "../entity/MetricRollup"
 import { Key } from "../entity/Key"
 
@@ -120,7 +119,6 @@ export type SerializedService = {
   name: string;
   key: string;
   desiredStatus: string;
-  instance: SerializedInstance;
   billingItemId: string;
   desiredStack: SerializedStack;
   createdBy: SerializedUser;
@@ -133,6 +131,8 @@ export type SerializedService = {
   driftPeriod: DriftPeriod;
   gpuEnabled: boolean;
   readme: string;
+  desiredCpuHz: number;
+  desiredRamMb: number;
   isPaid: boolean;
   runningVersion: number;
   createdAt: string;
@@ -147,13 +147,14 @@ export async function serializeService(service: Service): Promise<SerializedServ
     key: service.key,
     driftPeriod: service.driftPeriod,
     splitTrafficEnabled: service.splitTrafficEnabled,
+    desiredRamMb: service.desiredRamMb,
+    desiredCpuHz: service.desiredCpuHz,
     desiredStatus: service.desiredStatus,
     desiredStack: serializeStack(await service.desiredStack),
     createdBy: serializeUser(await service.createdBy),
     desiredVersion: await serializeVersion(await service.desiredVersion),
     isUp: service.lastHealtCheck != null && service.desiredStatus == ServiceDesiredStatus.UP,
     runningVersion: service.lastHealtCheckVersion,
-    instance: serializeInstance(await service.instance),
     allowUnAuthenticatedRequests: service.allowUnAuthenticatedRequests,
     promoCodeApplied: service.promoCodeApplied,
     readme: service.readme,

@@ -120,6 +120,8 @@ export type ApiService = {
   desiredStack: ApiStack;
   isSplitTraffic: boolean;
   driftPeriod: DriftPeriod;
+  desiredCpuHz: number;
+  desiredRamMb: number;
   desiredVersion: ApiVersion;
   createdBy: ApiUser;
   readme: string;

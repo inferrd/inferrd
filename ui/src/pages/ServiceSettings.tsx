@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import useSWR from 'swr'
-import { ApiInstance, ApiService, ApiStack } from '../api.types'
+import { ApiService, ApiStack } from '../api.types'
 import { getFetcher } from '../api/api'
 import Select from 'react-select'
 import { deleteService, updateService } from '../api/services'
@@ -19,28 +19,22 @@ type Props = {
 }
 
 const ServiceSettings: React.FC<Props> = ({ service }) => {
-  const [selectedInstance, setSelectedInstance] = useState<string>(service.instance.id)
   const [selectedStack, setSelectedStack] = useState<string>(service.desiredStack.id)
   const [name, setName] = useState<string>(service.name)
   const [promoCode, setPromoCode] = useState<string>()
 
   const [confirmName, setConfirmName] = useState<boolean>(false)
-  const [confirmInstance, setConfirmInstance] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [cpuValue, setCpuValue] = useState<string>((service.desiredCpuHz/1000) + '')
+  const [ramValue, setRamValue] = useState<string>((service.desiredRamMb/1024) + '')
   const history = useHistory()
   const { team } = useContext(TeamContext)
 
-  const { data: instances } = useSWR<ApiInstance[]>('/instances', getFetcher)
   const { data: stacks } = useSWR<ApiStack[]>('/stacks', getFetcher)
 
-  const instanceOptions = instances ? _.sortBy(instances, 'monthlyPrice').map(instance => ({
-    value: instance.id,
-    label: `${instance.name} - ${instance.cpuHrtz/1000} vCPUs, ${instance.ramMb/1000} GB RAM`
-  })) : []
-
-  const stackOptions = stacks ? stacks.map(instance => ({
-    value: instance.id,
-    label: instance.name
+  const stackOptions = stacks ? stacks.map(stack => ({
+    value: stack.id,
+    label: stack.name
   })) : []
 
   const onUpdateName = (newValue: string) => {
@@ -48,21 +42,16 @@ const ServiceSettings: React.FC<Props> = ({ service }) => {
     setConfirmName(newValue != service.name)
   }
 
-  const onUpdateInstance = (instanceId: string) => {
-    setSelectedInstance(instanceId)
-    setConfirmInstance(instanceId != service.instance.id)
-  }
-
-  const tryUpdateInstance = async () => {
+  const tryUpdateResources = async () => {
     setIsLoading(true)
 
     await updateService(service.id, {
-      instanceId: selectedInstance
+      desiredCpuHz: parseInt(cpuValue) * 1000,
+      desiredRamMb: parseInt(ramValue) * 1024,
     })
 
-    alert('The instance has been updated!')
+    alert('The resources has been updated!')
 
-    setConfirmInstance(false)
     setIsLoading(false)
   }
 
@@ -77,16 +66,6 @@ const ServiceSettings: React.FC<Props> = ({ service }) => {
     setIsLoading(false)
   }
 
-  const upUpdateIsPaid = async (isPaid: boolean) => {
-    setIsLoading(true)
-
-    await updateService(service.id, {
-      isPaid
-    })
-
-    setIsLoading(false)
-  }
-
   const tryDeleteModel = async () => {
     const name = prompt(`Please enter the name of the model to delete (${service.name}):`)
 
@@ -97,16 +76,6 @@ const ServiceSettings: React.FC<Props> = ({ service }) => {
 
       await deleteService(team.id, service.id)
     }
-  }
-
-  const applyPromo = async () => {
-    setIsLoading(true)
-
-    await updateService(service.id, {
-      promoCodeApplied: promoCode
-    })
-
-    setIsLoading(false)
   }
 
   const toggleGpu = async () => {
@@ -165,13 +134,34 @@ const ServiceSettings: React.FC<Props> = ({ service }) => {
         <div className='bg-white rounded shadow px-4 py-4 mt-3'>
           <div className='font-bold'>Resources</div>
 
-          <div className='mt-2'>
-            <Select onChange={e => onUpdateInstance(e.value)} options={instanceOptions} value={instanceOptions.find(option => option.value == selectedInstance)} />
+          <div className='flex-col gap-2'>
+          <div className='flex gap-2 items-center'>
+              <div>RAM</div>
+              <div>
+                <input
+                  value={ramValue}
+                  type='number'
+                  onChange={e => setRamValue(e.target.value)}
+                  className='text-right w-full px-3 py-2 border-2 rounded focus:border-indigo-600 outline-none transition-colors'/>
+              </div>
+              <div>GBs</div>
+            </div>
+            <div className='mt-2 flex gap-2 items-center'>
+              <div>CPU</div>
+              <div>
+                <input
+                  value={cpuValue}
+                  type='number'
+                  onChange={e => setCpuValue(e.target.value)}
+                  className='text-right w-full px-3 py-2 border-2 rounded focus:border-indigo-600 outline-none transition-colors'/>
+              </div>
+              <div>CPUs</div>
+            </div>
           </div>
 
-          {confirmInstance && <div onClick={tryUpdateInstance} className='px-2 py-2 rounded bg-indigo-600 text-white text-center w-40 mt-4 cursor-pointer hover:opacity-90 shadow transition-opacity'>
-            Update Plan
-          </div>}
+          <div onClick={tryUpdateResources} className='px-2 py-2 rounded bg-indigo-600 text-white text-center w-40 mt-4 cursor-pointer hover:opacity-90 shadow transition-opacity'>
+            Update Resources
+          </div>
         </div>
       </div>
       <div className='flex-1'>
@@ -186,7 +176,7 @@ const ServiceSettings: React.FC<Props> = ({ service }) => {
 
           <div className='font-bold mt-4'>GPU Acceleration</div>
           {
-            service.instance.allowGpu && <div>
+            service.desiredStack.supportGpu && <div>
               {
                 !service.desiredStack.supportGpu && <div className='pt-2 text-sm text-gray-700'>{service.desiredStack.name} does not support GPU.</div>
               }

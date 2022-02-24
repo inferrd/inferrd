@@ -6,14 +6,11 @@ import { Service, ServiceDesiredStatus } from "../entity/Service";
 import { Stack } from "../entity/Stack";
 import { Team } from "../entity/Team";
 import _ from 'lodash'
-import superagent from 'superagent'
-import { deployVersion, getAllocationsForJob, getEndpointForService, getJobNameForService, getLogsForAllocation, OutType, shutdownService, updateService } from "../services/nomad";
-import { SerializedService, serializeService, serializeStack, serializeVersion } from "../utils/serializer";
-import { Instance } from "../entity/Instances";
+import { getAllocationsForJob, getJobNameForService, getLogsForAllocation, OutType, shutdownService, updateService } from "../services/nomad";
+import { serializeService } from "../utils/serializer";
 import { deployVersionToNomad } from "../utils/nomad";
 import { ServiceType } from "../entity/types";
 import logger from "../logger";
-import { ServiceStatus } from "../entity/ServiceStatus";
 
 const servicesRouter = AsyncRouter()
 const log = logger('routes/service')
@@ -181,9 +178,10 @@ servicesRouter.post(
 
     const {
       name,
-      instanceId,
       splitTrafficEnabled,
       readme,
+      desiredCpuHz,
+      desiredRamMb,
       gpuEnabled,
       allowUnAuthenticatedRequests
     } = req.body
@@ -208,28 +206,13 @@ servicesRouter.post(
       service.allowUnAuthenticatedRequests = allowUnAuthenticatedRequests
     }
 
-    const currentInstance = await service.instance
+    if(desiredCpuHz != null || desiredRamMb != null) {
+      let newDesiredRamMb = desiredRamMb ?? service.desiredRamMb
+      let newDesiredCpuHz = desiredCpuHz ?? service.desiredCpuHz
 
-    if(instanceId) {
-      const instance = await Instance.findOne({
-        where: {
-          id: instanceId
-        }
-      })
-
-      if(!instance) {
-        throw new Error('Instance id is wrong.')
-      }
-
-      // reload new date
-      service = await Service.findOne({
-        where: {
-          id: serviceId
-        }
-      })
-
-      // update the instance
-      service.instance = Promise.resolve(instance)
+      // update the service
+      service.desiredCpuHz = newDesiredCpuHz
+      service.desiredRamMb = newDesiredRamMb
 
       // save new instance
       await service.save()
@@ -241,8 +224,6 @@ servicesRouter.post(
     if(gpuEnabled != null) {
       if(!service.gpuEnabled) {
         // add item to the bill
-        const instance = await service.instance
-
         service.gpuEnabled = (new Date()).toISOString()
 
         await service.save()
@@ -261,16 +242,6 @@ servicesRouter.post(
     }
 
     await service.save()
-
-    // create billing item if not there
-    if(currentInstance.monthlyPrice > 0 && !service.billingItemId) {
-      // reload new date
-      service = await Service.findOne({
-        where: {
-          id: serviceId
-        }
-      })
-    }
 
     if(deployNeeded) {
       await updateService(service)
@@ -329,16 +300,10 @@ servicesRouter.post(
 
     const { user } = getRequestContext()
 
-    const plan = await team.plan
-
     let maxServices = 8
 
     if(!user.emailVerified && services.length > 0) {
       throw new Error('Verify your email to create more than 1 service.')
-    }
-
-    if(plan) {
-      maxServices = plan.features.models
     }
 
     if(services.length > maxServices) {
@@ -348,7 +313,8 @@ servicesRouter.post(
     let {
       name,
       stackId,
-      instanceId,
+      desiredCpuHz = 1024,
+      desiredRamMb = 1000,
       type
     } = req.body
 
@@ -366,17 +332,6 @@ servicesRouter.post(
       throw new Error('Stack is required.')
     }
 
-    if(!instanceId) {
-      // take the most expensive instance
-      const instance = await Instance.findOne({
-        order: {
-          'monthlyPrice': 'DESC'
-        }
-      })
-
-      instanceId = instance.id
-    }
-
     const stack = await Stack.findOne({
       where: [
         { id: stackId },
@@ -388,16 +343,6 @@ servicesRouter.post(
       throw new Error('Could not find this stack.')
     }
 
-    const instance = await Instance.findOne({
-      where: {
-        id: instanceId
-      }
-    })
-
-    if(!instance) {
-      throw new Error('Could not find this instance type.')
-    }
-
     const serviceData: Partial<Service> = {
       name,
       instancesDesired: 0,
@@ -405,13 +350,14 @@ servicesRouter.post(
       key: `model_${nanoid()}`,
       allowUnAuthenticatedRequests: false,
       desiredStatus: ServiceDesiredStatus.DOWN,
-      gpuEnabled: instance.enableGpu ? (new Date()).toISOString() : null
+      gpuEnabled: stack.supportGpu ? (new Date()).toISOString() : null,
+      desiredCpuHz: desiredCpuHz,
+      desiredRamMb: desiredRamMb,
     }
 
     const service = Service.create(serviceData)
 
     service.desiredStack = Promise.resolve(stack)
-    service.instance = Promise.resolve(instance)
     service.team = Promise.resolve(team)
     service.createdBy = Promise.resolve(user)
 

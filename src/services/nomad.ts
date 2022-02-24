@@ -23,12 +23,8 @@ export async function getHCL(service: Service): Promise<string> {
   const stack = await service.desiredStack
   const team = await service.team
 
-  const instance = await service.instance
-
   // zero downtime only for paying customers
   const isZeroDowntime = false//instance.monthlyPrice > 0
-
-  const priority = clamp(instance.monthlyPrice, 1, 100)
 
   const fluentdLogging = true
   const versions = [await service.desiredVersion]
@@ -39,13 +35,11 @@ export async function getHCL(service: Service): Promise<string> {
   job "service-${service.id}" {
     type = "service"
     datacenters = ["dc1"]
-    priority = "${priority}"
 
     meta {
       teamId = "${team.id}"
       modelId = "${service.id}"
       stackId = "${stack.id}"
-      instanceId = "${instance.id}"
       generatedAt = "${moment().toString()}"
     }
 
@@ -153,9 +147,9 @@ export async function getHCL(service: Service): Promise<string> {
         }
         
         resources {
-          cpu = ${instance.cpuHrtz}
-          memory = ${instance.ramMb}
-          memory_max = ${2 * instance.ramMb}
+          cpu = ${service.desiredCpuHz}
+          memory = ${service.desiredRamMb}
+          memory_max = ${2 * service.desiredRamMb}
         }
       }
     }

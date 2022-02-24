@@ -34,6 +34,8 @@ const NewService: React.FC = ({ }) => {
   const { data: instances } = useSWR<ApiInstance[]>('/instances', getFetcher)
 
   const [selectedStackId, setSelectedStackId] = useState<string>()
+  const [cpuValue, setCpuValue] = useState<string>('1')
+  const [ramValue, setRamValue] = useState<string>('1')
   const [selectedInstanceType, setSelectedInstanceType] = useState<string>()
   const [name, setName] = useState<string>(uniqueNamesGenerator(customConfig))
   const [isLoading, setIsLoading] = useState<boolean>()
@@ -65,7 +67,8 @@ const NewService: React.FC = ({ }) => {
       team.id,
       name, 
       selectedStackId, 
-      selectedInstanceType
+      parseInt(cpuValue) * 1000,
+      parseInt(ramValue) * 1024,
     )
     setIsLoading(false)
 
@@ -113,43 +116,29 @@ const NewService: React.FC = ({ }) => {
         </div>
         <div className='text-sm my mb-4 text-gray-500'>Choose the minimum amount of resources your model needs. This can be changed later.</div>
 
-        <div className='flex gap-4'>
-          {
-            _.sortBy(instances || [], 'monthlyPrice').map(
-              instance => {
-                const selected = instance.id == selectedInstanceType
-                const locked = false;//instance.monthlyPrice > 50 * 100 && !team.defaultPaymentId
-
-                return (
-                  <Tippy hideOnClick={false} disabled={!locked} content={`Add a payment method to unlock bigger plans`}>
-                    <div onClick={() => locked ? _.noop : setSelectedInstanceType(instance.id)} className={`relative px-4 py-4 w-52 ${!selected && `hover:bg-gray-50`} border-2 border-white focus:opacity-70 transition-colors flex flex-col cursor-pointer rounded bg-white shadow ${selected && 'border-indigo-500 border-2 bg-indigo-50'}`}>
-                      { locked && <Lock style={{
-                        height: 40,
-                        color: 'black',
-                        width: 40,
-                        position: 'absolute',
-                        top: 48,
-                        left: 80
-                      }}/> }
-
-                      <div className={`${locked && 'opacity-20'}`}>
-                        <div className='text-sm font-bold mb-2'>{ instance.ramMb/2/1000 }GB GPU</div>
-
-                        <div className='text-sm'>
-                          <div className='flex mt-1 items-center'><Cpu className='mr-1' height={13} width={13}/> 1 CPU</div>
-                          <div className='flex mt-1 items-center'><HardDrive className='mr-1' height={13} width={13}/> { instance.ramMb >= 1000 ? `${instance.ramMb/1000}GB` : `${instance.ramMb}MB` } RAM</div>
-                          
-                          {/* <div className='flex mt-1 items-center'><Database className='mr-1' height={13} width={13}/> { instance.ramMb < 1000 ? `${instance.ramMb}MB` : `${instance.ramMb/1000}GB` } RAM</div>
-                          <div className='flex mt-1 items-center'><Cpu className='mr-1' height={13} width={13}/> { instance.cpuHrtz < 1000 ? `Shared` : `${instance.cpuHrtz/1000}` } CPU (3.9 GHz)</div>
-                          */}
-                        </div>
-                      </div>
-                      </div>
-                  </Tippy>
-                )
-              }
-            )
-          }
+        <div className='flex-col gap-2'>
+          <div className='flex gap-2 items-center'>
+            <div>RAM</div>
+            <div>
+              <input
+                value={ramValue}
+                type='number'
+                onChange={e => setRamValue(e.target.value)}
+                className='text-right w-full px-3 py-2 border-2 rounded focus:border-indigo-600 outline-none transition-colors'/>
+            </div>
+            <div>GBs</div>
+          </div>
+          <div className='mt-2 flex gap-2 items-center'>
+            <div>CPU</div>
+            <div>
+              <input
+                value={cpuValue}
+                type='number'
+                onChange={e => setCpuValue(e.target.value)}
+                className='text-right w-full px-3 py-2 border-2 rounded focus:border-indigo-600 outline-none transition-colors'/>
+            </div>
+            <div>CPUs</div>
+          </div>
         </div>
 
         <div className='font-bold text-xl mb-2 mt-8'>

@@ -59,6 +59,12 @@ export class Service extends BaseEntity {
   @ManyToOne(() => Version, { nullable: true })
   desiredVersion?: Promise<Version>;
 
+  @Column({ nullable: true })
+  desiredRamMb: number;
+
+  @Column({ nullable: true })
+  desiredCpuHz: number;
+
   @ManyToOne(() => Stack)
   desiredStack: Promise<Stack>;
 
