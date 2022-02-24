@@ -27,7 +27,7 @@ const ServiceVersions: React.FC<Props> = ({ service }) => {
   const { data: versions } = useSWR<ApiVersion[]>(`/service/${service.id}/versions?limit=15`, getFetcher, {
     refreshInterval: 2000
   })
-  
+
   return (
     <>
       { service.isUp && <ModelUsage service={service}/> }
@@ -60,7 +60,7 @@ const ServiceVersions: React.FC<Props> = ({ service }) => {
                       }
 
                       {
-                        service.runningVersion != version.number && version.runStatus != 'error' && service.desiredVersion.id == version.id && <div><span className='text-xs bg-green-500 rounded px-2 text-white py-1 ml-3'>Deploying</span></div>
+                        service.runningVersion != version.number && version.runStatus != 'error' && service.desiredVersion?.id == version.id && <div><span className='text-xs bg-green-500 rounded px-2 text-white py-1 ml-3'>Deploying</span></div>
                       }
                     </div>
                   </Link>

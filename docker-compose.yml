@@ -46,6 +46,7 @@ services:
     depends_on:
       - db
       - redis
+      - s3
       - nomad
       - elastic
     environment:
@@ -55,9 +56,6 @@ services:
       - DEBUG=inferrd/*
       - NODE_ENV=docker
       - APP_HOST=${HOST}:3001
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_BUCKET_NAME=${AWS_BUCKET_NAME}
       - API_HOST=${HOST}:3000
       - LOGS_ES=https://elastic:9200
 

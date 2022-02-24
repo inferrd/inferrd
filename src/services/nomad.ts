@@ -38,7 +38,7 @@ export async function getHCL(service: Service): Promise<string> {
   const jobDescription = `
   job "service-${service.id}" {
     type = "service"
-    datacenters = ["${instance.datacenter}"]
+    datacenters = ["dc1"]
     priority = "${priority}"
 
     meta {
@@ -114,17 +114,11 @@ export async function getHCL(service: Service): Promise<string> {
         driver = "docker"
         
         config {
-          image = "98r52933.gra7.container-registry.ovh.net/${stack.dockerUrl}"
+          image = "inferrd/tensorflow"
           ports = ["http"]
           image_pull_timeout = "15m"
 
           ${isProd && activateGpu ? 'runtime = "nvidia"' : ''}
-          
-          auth {
-            username = "nomadworkers"
-            password = "@p.kCEiDEtHJtCEk4X"
-            server_address = "98r52933.gra7.container-registry.ovh.net"
-          }
 
           ${isProd && fluentdLogging ? `logging {
             type = "fluentd"
@@ -145,9 +139,7 @@ export async function getHCL(service: Service): Promise<string> {
         }
         
         env {
-          AWS_SECRET_ACCESS_KEY = "${process.env.AWS_SECRET_ACCESS_KEY}"
-          AWS_ACCESS_KEY_ID = "${process.env.AWS_ACCESS_KEY_ID}"
-          MODEL_PATH = "${version.storagePath}"
+          MODEL_DOWNLOAD = "${process.env.API_HOST}/version/${version.id}/download"
           MODEL_VERSION = "${version.number}"
           CUDA_LAUNCH_BLOCKING = 1
           PYTHONUNBUFFERED = "1"

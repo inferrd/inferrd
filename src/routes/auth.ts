@@ -31,6 +31,10 @@ authRouter.post(
       throw new Error('Email not found')
     }
 
+    if(!user.passwordHash) {
+      throw new Error('User has not set a password')
+    }
+
     const isValid = await bcrypt.compare(password, user.passwordHash)
 
     if(!isValid) {
@@ -42,7 +46,9 @@ authRouter.post(
     }, JWT_SECRET)
 
     res.json({
-      token
+      token: jwt.sign({
+        userId: user.id
+      }, JWT_SECRET)
     })
   }
 )

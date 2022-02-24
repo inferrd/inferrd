@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { login } from './api/auth'
+import { login, register } from './api/auth'
 import { ArrowLeft, CheckCircle } from 'react-feather'
 import networkImage from './assets/network.png'
 import googleImage from './assets/google.png'
@@ -23,12 +23,30 @@ const RegisterPage: React.FC = ({ }) => {
     return <div></div>
   }
 
-  const tryLogin = async (email?: string) => {
+  const tryLogin = async () => {
     setIsLoading(true)
     setErrorMessage(null)
 
     try {
       const token = await login(email, password)
+
+      console.log('token is ', token)
+
+      window.localStorage.setItem('user_token', token)
+
+      window.location.href = '/'
+    } catch(e) {
+      setErrorMessage(e.message)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+  const tryRegister = async () => {
+    setIsLoading(true)
+    setErrorMessage(null)
+
+    try {
+      const token = await register(email, password)
 
       window.localStorage.setItem('user_token', token)
 
@@ -77,11 +95,14 @@ const RegisterPage: React.FC = ({ }) => {
   value={password}
   onChange={e => setPassword(e.target.value)}/>
 
+              { errorMessage && <div className='text-red-500 py-2'>{errorMessage}</div> }
+
               <div onClick={() => tryLogin()} className={`${isLoading && 'opacity-70 pointer-events-none'} bg-indigo-600 text-white text-center rounded py-2 hover:opacity-80 transition-opacity cursor-pointer`}>{ isLoading ? 'Loading..' : 'Login' }</div>
+              <div onClick={() => tryRegister()} className={`${isLoading && 'opacity-70 pointer-events-none'} shadow bg-gray-50 text-center rounded py-2 hover:opacity-80 transition-opacity cursor-pointer`}>{ isLoading ? 'Loading..' : 'Register' }</div>
           </div>
         </div>
         
-        <div className='text-center text-sm text-gray-700 mt-4'>©2021 Inferrd Software Inc.</div>
+        <div className='text-center text-sm text-gray-700 mt-4'>©2022 Inferrd Software Inc.</div>
 
         <div className='flex-1'></div>
       </div>

@@ -4,12 +4,14 @@ import { getRequestContext } from "../als";
 import { Service, ServiceDesiredStatus } from "../entity/Service";
 import { Version, VersionDeploymentStatus } from "../entity/Version";
 import { deployVersion, getDeploymentId, updateVersion } from "../services/nomad";
-import { getSizeOfAwsFile, getUploadSignedUrlForPath } from "../utils/aws";
+import { getSizeOfAwsFile, getUploadSignedUrlForPath, uploadObject } from "../utils/s3";
 import _ from 'lodash'
 import { serializeVersion } from "../utils/serializer";
+import multer from 'multer'
 import { ServiceStatus, ServiceStatusEnum } from "../entity/ServiceStatus";
 import logger from "../logger";
 
+const upload = multer()
 const versionRouter = AsyncRouter()
 const log = logger('route/versions')
 
@@ -49,6 +51,7 @@ versionRouter.get(
 versionRouter.post(
   `/version/:id`,
   async (req, res, next) => {
+
     const versionId = req.params.id
 
     const version = await Version.findOne({
@@ -65,14 +68,6 @@ versionRouter.post(
     const team = await service.team
 
     await assertCurrentUserIsPartOfTeam(team)
-
-    const {
-      trafficPercentage
-    } = req.body
-
-    if(trafficPercentage) {
-      version.trafficPercentage = trafficPercentage
-    }
 
     await version.save()
 
@@ -121,6 +116,7 @@ versionRouter.get(
 
 versionRouter.post(
   '/service/:id/versions',
+  upload.single('model'),
   async (req, res, next) => {
     const serviceId = req.params.id
 
@@ -159,9 +155,10 @@ versionRouter.post(
     }
 
     const newVersion = await Version.create(versionData)
+    const storagePath = `${process.env.NODE_ENV}/${serviceId}/${nextNumber}.zip`
 
     newVersion.stack = Promise.resolve(await service.desiredStack)
-    newVersion.storagePath = `${process.env.NODE_ENV}/${serviceId}/${nextNumber}.zip`
+    newVersion.storagePath = storagePath
     newVersion.service = Promise.resolve(service)
     newVersion.createdBy = Promise.resolve(user)
     // if split traffic is enabled, don't give traffic to this version
@@ -172,10 +169,15 @@ versionRouter.post(
 
     await newVersion.save()
 
-    res.json({
-      ...(await serializeVersion(newVersion)),
-      signedUpload: getUploadSignedUrlForPath(newVersion.storagePath)
-    })
+    const zip = req.file
+    
+    // upload to s3
+    await uploadObject(
+      zip.buffer,
+      storagePath
+    )
+
+    res.json(await serializeVersion(newVersion))
   }
 )
 

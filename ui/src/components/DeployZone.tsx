@@ -5,6 +5,7 @@ import {FileWithPath, useDropzone} from 'react-dropzone'
 import { createVersion, deployVersion } from '../api/version'
 import { ApiService } from '../api.types'
 import superagent from 'superagent'
+import { NormalModuleReplacementPlugin } from 'webpack'
 
 const uploadVerifier = (stackName: string, acceptFiles: File[]): string | null => {
   // check extension is joblib
@@ -120,24 +121,13 @@ const DeployZone: React.FC<Props> = ({ title, service }) => {
 
       zip.generateAsync({type:'blob'}).then(async (blobdata)=>{
         // first set version
-        setStatus('Creating version')
-        const version = await createVersion(service.id)
-
         setStatus('Uploading version')
-        // uploading zip package
-        const uploadRequest = superagent.put(version.signedUpload)
+        const version = await createVersion(service.id, blobdata, onUploadProgress)
 
-        uploadRequest.set('Content-Type', 'application/zip')
-        uploadRequest.send(blobdata)
+        setStatus('Triggering deploy')
+        await deployVersion(version.id)
 
-        uploadRequest.on('progress', onUploadProgress)
-
-        uploadRequest.then(async () => {
-          setStatus('Triggering deploy')
-          await deployVersion(version.id)
-      
-          setStatus(null)
-        })
+        setStatus(null)
       })
     } catch(e) {
       setStatus('An error happened while deploying this version.')

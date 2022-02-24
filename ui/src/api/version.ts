@@ -1,19 +1,21 @@
 import { ApiVersion } from "../api.types";
-import { post } from "./api";
+import { post, getHeaders, apiEndpoint } from "./api";
+import superagent from 'superagent'
 
-export type ApiVersionWithUpload = ApiVersion & { signedUpload: string }
 
-export async function createVersion(serviceId: string): Promise<ApiVersionWithUpload | null> {
-  const result = await post<ApiVersionWithUpload>(`/service/${serviceId}/versions`, {
+export async function createVersion(serviceId: string, version: Blob, onUploadProgress: (p: number) => void): Promise<ApiVersion | null> {
+  const auth = getHeaders()['Authorization']
 
+  const uploadRequest = superagent.post(`${apiEndpoint}/service/${serviceId}/versions`)
+  uploadRequest.set('Authorization', auth)
+  uploadRequest.attach('model', version, {
+    contentType: 'application/zip',
   })
+  uploadRequest.on('progress', onUploadProgress)
 
-  if(result.error) {
-    alert(result.message)
-    return null
-  }
+  const res = await uploadRequest
 
-  return result
+  return res.body as ApiVersion
 }
 
 export async function deployVersion(versionId: string): Promise<ApiVersion> {

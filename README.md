@@ -22,14 +22,6 @@ Inferrd can be installed by clone this repo and docker.
 
 Make sure `docker` is installed on your inference server. Then create a `.env` file that contains your AWS S3 keys & host name (it will be used to store your models).
 
-```
-AWS_SECRET_ACCESS_KEY=xxxxx
-AWS_ACCESS_KEY_ID=xxxx
-AWS_BUCKET_NAME=my-models
-# change this if you want Inferrd to be accessible from another server
-HOST=localhost
-```
-
 Then run the two following commands to get started:
 
 ```

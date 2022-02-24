@@ -11,7 +11,6 @@ import { Invite } from "../entity/Invite"
 import * as Stripe from 'stripe'
 import { Plan, PlanFeatures } from "../entity/Plan"
 import { MetricRollup } from "../entity/MetricRollup"
-import { getDownloadSignedUrlForPath } from "./aws"
 import { Key } from "../entity/Key"
 
 export type SerializedUser = {
@@ -222,7 +221,7 @@ export async function serializeVersion(version?: Version): Promise<SerializedVer
     trafficPercentage: version.trafficPercentage,
     bundleSize: version.bundleSize,
     runStatusDescription: version.runStatusDescription,
-    downloadUrl: getDownloadSignedUrlForPath(version.storagePath),
+    downloadUrl: `${process.env.API_HOST}/version/${version.id}/download`,
     lastLines: version.lastLines,
     createdAt: version.createdAt.toString()
   }

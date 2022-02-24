@@ -32,6 +32,7 @@ import keysRouter from './routes/keys';
 import metricsRouter from './routes/metrics';
 import logsRouter from './routes/logs';
 import internalRouter from './routes/internal';
+import downloadRouter from './routes/download';
 
 const log = logger('server')
 
@@ -58,6 +59,7 @@ app.use(authenticateClient)
 app.use(metricsRouter)
 app.use(authRouter)
 app.use(inferenceRouter)
+app.use(downloadRouter)
 app.use(noAuthRouter)
 app.use(internalRouter)
 

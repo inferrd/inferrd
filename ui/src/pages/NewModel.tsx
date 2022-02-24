@@ -109,9 +109,9 @@ const NewService: React.FC = ({ }) => {
         </div>
 
         <div className='font-bold text-xl mb-2 mt-8'>
-          GPU Size
+          Resources
         </div>
-        <div className='text-sm my mb-4 text-gray-500'>Choose the plan on which the model will run. Plans are based on the size of your model and the number of requests you need. This can be changed later.</div>
+        <div className='text-sm my mb-4 text-gray-500'>Choose the minimum amount of resources your model needs. This can be changed later.</div>
 
         <div className='flex gap-4'>
           {

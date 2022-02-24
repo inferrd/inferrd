@@ -14,7 +14,7 @@ export function logout() {
   mutate('/me', null)
 }
 
-export async function regsiter(email: string, password: string): Promise<string> {
+export async function register(email: string, password: string): Promise<string> {
   const { token, error, message } = await post('/auth/register', {
     email,
     password,
