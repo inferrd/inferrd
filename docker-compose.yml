@@ -38,24 +38,22 @@ services:
       - "discovery.type=single-node"
     restart: always
 
-  fluent:
-    image: fluent/fluentd
-    command: sh ./local/entrypoint.sh
-    ports:
-      - "24224:24224"
-    restart: always
-    volumes:
-      - ./fluentd:/etc/fluent/
+  # fluent:
+  #   image: fluent/fluentd
+  #   command: sh ./local/entrypoint.sh
+  #   ports:
+  #     - "24224:24224"
+  #   restart: always
+  #   volumes:
+  #     - ./fluentd:/etc/fluent/
 
   api:
-    build: .
-    command: yarn run start
+    image: inferrd/api
     ports:
       - "3000:3000"
     depends_on:
       - db
       - redis
-      - fluent
       - nomad
       - elastic
     environment:
@@ -70,7 +68,7 @@ services:
       - LOGS_ES=https://elastic:9200
 
   ui:
-    build: ./ui
+    image: inferrd/ui
     ports:
       - "3001:3001"
     depends_on:

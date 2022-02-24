@@ -41,9 +41,12 @@ authRouter.post(
       throw new Error('Invalid password')
     }
 
-    const token = jwt.sign({
-      id: user.id,
-    }, JWT_SECRET)
+    const teams = await user.teams
+  
+    if (teams?.length == 0) {
+      // doesn't have a team, let's create one
+      await TeamController.createFirstTeam(user)
+    }
 
     res.json({
       token: jwt.sign({

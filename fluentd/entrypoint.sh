@@ -1,0 +1,1 @@
+fluent-gem install fluent-plugin-elasticsearch && exec fluentd -c /etc/fluentd/fluent.conf
