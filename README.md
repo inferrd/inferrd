@@ -18,11 +18,15 @@ Inferrd is on a mission to make machine learning deployment a breeze.
 
 ## Quick start
 
-Inferrd can be installed by clone this repo and docker.
+Inferrd can be installed by installing docker and cloning this repository.
 
-Make sure `docker` is installed on your inference server. Then create a `.env` file that contains your AWS S3 keys & host name (it will be used to store your models).
+Make sure `docker` is installed on your inference server. You can install docker with:
 
-Then run the two following commands to get started:
+```
+curl -fsSL https://get.docker.com | sh
+```
+
+Then run the following commands to get started:
 
 ```
 git clone https://github.com/inferrd/inferrd.git

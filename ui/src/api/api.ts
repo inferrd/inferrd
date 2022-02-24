@@ -1,6 +1,6 @@
 import { ApiError } from "../api.types"
 
-export const apiEndpoint = process.env.API_ENDPOINT
+export const apiEndpoint = window.location.protocol + '//' + window.location.host.split(':')[0] + ':' + process.env.API_PORT
 
 export const getUserToken = (): string => {
   return window.localStorage.getItem('user_token')

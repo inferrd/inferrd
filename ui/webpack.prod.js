@@ -122,6 +122,7 @@ module.exports = {
     new webpack.EnvironmentPlugin({
       APP_ENV: 'production',
       API_ENDPOINT: 'http://localhost:3000',
+      API_PORT: '3000',
       API_HOST: 'http://localhost:3000'
     }),
     new webpack.optimize.ModuleConcatenationPlugin(),
