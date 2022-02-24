@@ -83,11 +83,6 @@ export async function getHCL(service: Service): Promise<string> {
           to = 9001
         }
       }
-     
-      ephemeral_disk {
-        size    = 2000
-        sticky  = true
-      }
 
       service {
         port = "http"
@@ -214,7 +209,7 @@ export async function deployService(service: Service): Promise<string> {
   if (jsonDescription.job == null) {
     throw new Error('Invalid job description')
   }
-  
+
   const job = await superagent.post(`${API_ENDPOINT}/v1/jobs`).set('X-Nomad-Token', API_TOKEN).send({
     Job: jsonDescription
   })
@@ -471,11 +466,7 @@ export async function getEndpointForService(service: Service) {
 
   const alloc = await this.getAllocation(allocId)
 
-  const nodeId = alloc.NodeID
-
-  const node = await getNode(nodeId)
-
-  let ip = node?.HTTPAddr.split(':')[0]
+  let ip = 'host.docker.internal'
 
   const port = alloc?.AllocatedResources?.Shared?.Networks[0]?.DynamicPorts[0].Value
 

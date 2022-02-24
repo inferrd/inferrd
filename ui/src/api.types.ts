@@ -116,7 +116,6 @@ export type ApiService = {
   name: string;
   key: string;
   desiredStatus: ServiceStatus;
-  instance: ApiInstance;
   desiredStack: ApiStack;
   isSplitTraffic: boolean;
   driftPeriod: DriftPeriod;

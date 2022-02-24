@@ -2,8 +2,8 @@ version: '3'
 
 services:
   nomad:
-    image: multani/nomad
-    command: agent -dev
+    image: inferrd/nomad
+    command: agent -dev -data-dir=/tmp/nomad/data
     privileged: true
     ports:
       - "4646:4646"
@@ -13,7 +13,11 @@ services:
       NOMAD_LOCAL_CONFIG: |
         bind_addr = "0.0.0.0"
         datacenter = "dc1"
-        data_dir = "/nomad/data/"
+        data_dir = "/tmp/nomad/data"
+        client {
+          min_dynamic_port = 20000
+          max_dynamic_port = 20050
+        }
         plugin "docker" {
           config {
           }
@@ -21,7 +25,8 @@ services:
 
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:rw
-      - /tmp:/tmp
+      - /tmp/nomad:/tmp/nomad:rw
+      - /tmp:/tmp:rw
   
   db:
     image: postgres

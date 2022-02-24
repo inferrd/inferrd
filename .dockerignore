@@ -4,3 +4,5 @@ ui
 nomad
 .env*
 .env
+nomad
+s3

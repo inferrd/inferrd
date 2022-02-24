@@ -79,7 +79,7 @@ const ServiceOverview: React.FC = ({ }) => {
                 </div>
 
                 <div className='flex-1 py-4 pl-4' style={{ borderRight: '1px solid rgba(0,0,0,0.1)' }}>
-                  <div className='text-5xl font-bold'>{formatRequestNumber(stats?.requestsCount.total)} <span className='text-sm text-gray-600'>/ {service.instance.maxRequests ? formatRequestNumber(service.instance.maxRequests) : '∞'}</span></div>
+                  <div className='text-5xl font-bold'>{formatRequestNumber(stats?.requestsCount.total)}</div>
                   <div className='text-gray-700'>Requests</div>
                 </div>
 

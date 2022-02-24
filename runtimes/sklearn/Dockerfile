@@ -10,5 +10,6 @@ RUN python3 -m pip install --upgrade dill pandas sklearn joblib flask --no-cache
 
 COPY . .
 
+EXPOSE 9001
 
 CMD ["sh", "./run-model.sh"]
