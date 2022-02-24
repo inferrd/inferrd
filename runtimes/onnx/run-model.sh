@@ -2,7 +2,7 @@ set -e
 
 echo '=> Setting up environment'
 echo '(1/3) Downloading model bundle'
-wget $MODEL_DOWNLOAD
+wget -O model.zip $MODEL_DOWNLOAD
 
 echo '(2/3) Unzipping model bundle'
 unzip -o -qq ./model.zip -d . 2> /dev/null || true
