@@ -76,7 +76,7 @@ services:
       - NODE_ENV=docker
       - APP_HOST=http://localhost:8080
       - API_HOST=http://localhost:3000
-      - DOCKER_HOST=http://host.docker.internal:3000
+      - DOCKER_HOST=http://172.17.0.1:3000
       - LOGS_ES=https://elastic:9200
       - NOMAD_TOKEN=""
 
