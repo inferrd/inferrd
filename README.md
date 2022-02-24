@@ -34,7 +34,7 @@ Now visit [http://localhost:8080](http://localhost:8080) and login with email `a
 
 ## Features
 
-* **Deploy form notebook**: Use the [Inferrd SDK](https://github.com/inferrd/sdk) to deploy from your notebook.
+* **Deploy form notebook**: Use the [Inferrd SDK](https://pypi.org/project/inferrd/) to deploy from your notebook.
 * **Wide framework support**: Deploy TensorFlow, PyTorch, HuggingFace, ONNX, Scikit and XGBoost hassle free.
 * **GPU support**: GPU acceleration comes pre-configured out of the box.
 * **Monitoring**: Monitoring is available as soon as you make your first request. Prometheus monitoring is also available.
