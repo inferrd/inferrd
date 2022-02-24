@@ -35,11 +35,6 @@ const Authenticated: React.FC = ({ }) => {
         <Route path='/team/:tid/members'>
           <Members/>
         </Route>
-        <Route path='/invite/:code'>
-          <div className='container mx-auto bg-white mt-4 rounded shadow bg-whtie py-4 text-center'>
-            <div>You need to log out to accept an invite.</div>
-          </div>
-        </Route>
         <Route path='/profile'>
           <Profile/>
         </Route>

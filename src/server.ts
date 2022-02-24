@@ -20,7 +20,6 @@ import statusRouter from './routes/status';
 import inferenceRouter from './routes/inference';
 import requestRouter from './routes/requests';
 import instanceRouter from './routes/instances';
-import inviteRouter from './routes/invites';
 import noAuthRouter from './routes/no-auth';
 import tfRouter from './routes/tf';
 import adminRouter from './routes/admin';
@@ -74,7 +73,6 @@ app.use(versionRouter)
 app.use(statusRouter)
 app.use(requestRouter)
 app.use(instanceRouter)
-app.use(inviteRouter)
 app.use(logsRouter)
 app.use(tfRouter)
 app.use(adminRouter)
@@ -91,8 +89,7 @@ connect().then(connection => {
   server.listen(port, () => {
     log(`Server listening on port ${port}`)
   })
+
+  log('Starting CRON jobs')
+  startCron()
 })
-
-
-log('Starting CRON jobs')
-startCron()

@@ -31,12 +31,10 @@ import { getImageForFramework } from '../constants'
 
 const NewService: React.FC = ({ }) => {
   const { data: stacks } = useSWR<ApiStack[]>('/stacks', getFetcher)
-  const { data: instances } = useSWR<ApiInstance[]>('/instances', getFetcher)
 
   const [selectedStackId, setSelectedStackId] = useState<string>()
   const [cpuValue, setCpuValue] = useState<string>('1')
   const [ramValue, setRamValue] = useState<string>('1')
-  const [selectedInstanceType, setSelectedInstanceType] = useState<string>()
   const [name, setName] = useState<string>(uniqueNamesGenerator(customConfig))
   const [isLoading, setIsLoading] = useState<boolean>()
   const history = useHistory()
@@ -45,14 +43,6 @@ const NewService: React.FC = ({ }) => {
   useEffect(() => {
     setSelectedStackId(stacks?.find(stack => stack.humanReadableId.startsWith('tensorflow'))?.id)
   }, [stacks])
-
-  useEffect(() => {
-    if(instances) {
-      let cheapest = _.sortBy(instances, 'monthlyPrice')
-
-      setSelectedInstanceType(cheapest[0].id)
-    }
-  }, [instances])
 
   const onCreate = async () => {
     if(isLoading) return

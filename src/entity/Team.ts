@@ -1,5 +1,4 @@
 import { BaseEntity, Column, CreateDateColumn, DeleteDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { Invite } from "./Invite";
 import { Key } from "./Key";
 import { Service } from "./Service";
 import { User } from "./User";
@@ -14,9 +13,6 @@ export class Team extends BaseEntity {
 
   @Column({ nullable: true })
   emoji: string;
-
-  @OneToMany(() => Invite, invite => invite.team)
-  invites: Promise<Invite[]>;
 
   @OneToMany(() => Service, service => service.team)
   services: Promise<Service[]>;

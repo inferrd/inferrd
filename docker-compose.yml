@@ -19,7 +19,7 @@ services:
     image: postgres
     restart: always
     ports:
-      - "5432:5432"
+      - "5433:5432"
     environment:
       POSTGRES_PASSWORD: inferrd
       POSTGRES_USER: inferrd
@@ -29,14 +29,14 @@ services:
     image: redis
     restart: always
 
-  elastic:
-    image: elasticsearch:8.0.0
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    environment:
-      - "discovery.type=single-node"
-    restart: always
+  # elastic:
+  #   image: elasticsearch:8.0.0
+  #   ports:
+  #     - "9200:9200"
+  #     - "9300:9300"
+  #   environment:
+  #     - "discovery.type=single-node"
+  #   restart: always
 
   # fluent:
   #   image: fluent/fluentd

@@ -7,7 +7,6 @@ import { Request } from '../entity/Request'
 import { Version } from "../entity/Version"
 import { Instance } from "../entity/Instances"
 import { getRequestContext } from "../als"
-import { Invite } from "../entity/Invite"
 import * as Stripe from 'stripe'
 import { MetricRollup } from "../entity/MetricRollup"
 import { Key } from "../entity/Key"
@@ -74,20 +73,6 @@ export type SerializedDriftTracker = {
   dataType: 'number' | 'text' | 'unknown';
   covariance: any;
   name: string;
-}
- 
-export type SerializedInvite = {
-  id: string;
-  email: string;
-  createdAt: string;
-}
-
-export function serializeInvite(invite: Invite): SerializedInvite {
-  return {
-    id: invite.id,
-    email: invite.email,
-    createdAt: invite.createdAt.toISOString()
-  }
 }
 
 export type SerializedTeam = {

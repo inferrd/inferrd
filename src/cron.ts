@@ -32,13 +32,11 @@ const rollupJob = new CronJob(
 
 const startCron = () => {
   log('Setting up CRON')
-  
-  connect().then(() => { 
-    nomadCheck.start()
-    healthCheck.start()
-    rollupJob.start()
-    //freezeCheck.start()
-  })
+   
+  nomadCheck.start()
+  healthCheck.start()
+  rollupJob.start()
+//freezeCheck.start()
 }
 
 export default startCron
