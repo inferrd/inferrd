@@ -466,7 +466,7 @@ export async function getEndpointForService(service: Service) {
 
   const alloc = await this.getAllocation(allocId)
 
-  let ip = 'host.docker.internal'
+  let ip = '172.17.0.1'
 
   const port = alloc?.AllocatedResources?.Shared?.Networks[0]?.DynamicPorts[0].Value
 
