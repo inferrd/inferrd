@@ -114,7 +114,7 @@ export async function getHCL(service: Service): Promise<string> {
         driver = "docker"
         
         config {
-          image = "inferrd/tensorflow"
+          image = "${stack.dockerUrl}"
           ports = ["http"]
           image_pull_timeout = "15m"
 
@@ -124,7 +124,7 @@ export async function getHCL(service: Service): Promise<string> {
             type = "fluentd"
 
             config {
-              fluentd-address = "10.128.0.7:24224"
+              fluentd-address = "localhost:24224"
               fluentd-buffer-limit = 1
               tag = "docker.${service.id}.${version.id}"
             }
@@ -139,7 +139,7 @@ export async function getHCL(service: Service): Promise<string> {
         }
         
         env {
-          MODEL_DOWNLOAD = "${process.env.API_HOST}/version/${version.id}/download"
+          MODEL_DOWNLOAD = "${process.env.DOCKER_HOST}/version/${version.id}/download"
           MODEL_VERSION = "${version.number}"
           CUDA_LAUNCH_BLOCKING = 1
           PYTHONUNBUFFERED = "1"

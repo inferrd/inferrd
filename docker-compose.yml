@@ -38,6 +38,15 @@ services:
       - "discovery.type=single-node"
     restart: always
 
+  fluent:
+    image: fluent/fluentd
+    command: sh ./local/entrypoint.sh
+    ports:
+      - "24224:24224"
+    restart: always
+    volumes:
+      - ./fluentd:/etc/fluent/
+
   api:
     build: .
     command: yarn run start
@@ -46,7 +55,7 @@ services:
     depends_on:
       - db
       - redis
-      - s3
+      - fluent
       - nomad
       - elastic
     environment:
@@ -55,8 +64,9 @@ services:
       - NOMAD_ADDR=http://nomad:4646
       - DEBUG=inferrd/*
       - NODE_ENV=docker
-      - APP_HOST=${HOST}:3001
-      - API_HOST=${HOST}:3000
+      - APP_HOST=http://localhost:3001
+      - API_HOST=http://localhost:3000
+      - DOCKER_HOST=http://api:3000
       - LOGS_ES=https://elastic:9200
 
   ui:

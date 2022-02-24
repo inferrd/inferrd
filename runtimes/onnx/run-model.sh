@@ -5,7 +5,7 @@ echo '(1/3) Downloading model bundle'
 wget $MODEL_DOWNLOAD
 
 echo '(2/3) Unzipping model bundle'
-unzip -o -qq ./model-$MODEL_VERSION.zip -d . 2> /dev/null || true
+unzip -o -qq ./model.zip -d . 2> /dev/null || true
 
 if [ -e model.onnx ]
 then

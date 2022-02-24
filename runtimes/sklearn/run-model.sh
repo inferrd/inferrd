@@ -2,10 +2,10 @@ set -e
 
 echo '=> Setting up environment'
 echo '(1/2) Downloading model bundle'
-wget $MODEL_DOWNLOAD
+wget -O model.zip $MODEL_DOWNLOAD
 
 echo '(2/3) Unzipping model bundle'
-unzip ./model-$MODEL_VERSION.zip -d .
+unzip ./model.zip -d .
 
 if [ -e model.joblib ]
 then
