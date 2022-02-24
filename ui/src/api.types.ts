@@ -177,7 +177,6 @@ export type ApiInstance = {
   maxRequests?: number;
   maxBundleSizeMb: number;
   cpuHrtz: number;
-  trialDays: number;
   allowGpu: boolean;
   ramMb: number;
 }
@@ -186,7 +185,6 @@ export type ApiPlan = {
   id: string;
   name: string;
   price: number;
-  trialDays: number;
   features: {
     concierge: boolean;
     models: number;

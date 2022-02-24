@@ -1,7 +1,6 @@
 import { BaseEntity, Column, CreateDateColumn, DeleteDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Invite } from "./Invite";
 import { Key } from "./Key";
-import { Plan } from "./Plan";
 import { Service } from "./Service";
 import { User } from "./User";
 
@@ -43,9 +42,6 @@ export class Team extends BaseEntity {
 
   @Column({ nullable: true })
   defaultPaymentId: string;
-
-  @ManyToOne(() => Plan, plan => plan.teams, { nullable: true })
-  plan: Promise<Plan>;
 
   @Column({ default: 0 })
   creditBalance: number;

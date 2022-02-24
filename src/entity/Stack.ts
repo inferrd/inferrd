@@ -10,9 +10,6 @@ export class Stack extends BaseEntity {
   name: string;
 
   @Column()
-  icon: string;
-
-  @Column()
   available: boolean;
 
   @Column({ nullable: true })

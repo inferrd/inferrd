@@ -143,18 +143,6 @@ const NewService: React.FC = ({ }) => {
                           <div className='flex mt-1 items-center'><Cpu className='mr-1' height={13} width={13}/> { instance.cpuHrtz < 1000 ? `Shared` : `${instance.cpuHrtz/1000}` } CPU (3.9 GHz)</div>
                           */}
                         </div>
-
-                        { team.plan && <div className='mt-2 text-sm font-bold'>Included in plan</div> }
-                        { !team.plan && 
-                          <>
-                            <div className='mt-2'>
-                              <span>${ (instance.monthlyPrice/100).toLocaleString() }<span className='text-gray-600 text-sm'> / month</span></span>
-
-                              {
-                                instance.trialDays > 0 && <div className='text-sm text-indigo-600 flex mt-1 items-center'>{ instance.trialDays} days free trial</div>
-                              }
-                            </div>
-                          </> }
                       </div>
                       </div>
                   </Tippy>

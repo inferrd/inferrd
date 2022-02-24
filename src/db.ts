@@ -15,6 +15,9 @@ export async function connect() {
         rejectUnauthorized: false
       }
     },
+    migrations: [
+      process.env.NODE_ENV == 'production' || process.env.NODE_ENV == 'docker' ? './dist/migrations/*.js' : './src/migrations/*.ts'    
+    ],
     entities: [
       process.env.NODE_ENV == 'production' || process.env.NODE_ENV == 'docker' ? './dist/entity/*.js' : './src/entity/**/*.ts'    
     ]

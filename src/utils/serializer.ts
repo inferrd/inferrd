@@ -98,7 +98,6 @@ export type SerializedTeam = {
   balance: number
   credits: number;
   createdAt: string;
-  plan?: SerializedPlan;
   defaultPaymentId: string;
   owner: SerializedUser;
 }
@@ -112,7 +111,6 @@ export async function serializeTeam(team: Team): Promise<SerializedTeam> {
     credits: team.credits,
     owner: serializeUser(await team.owner),
     defaultPaymentId: team.defaultPaymentId,
-    plan: serializePlan(await team.plan),
     createdAt: team.createdAt.toString()
   }
 }
@@ -172,7 +170,6 @@ export type SerializedStack = {
   name: string;
   humanReadableId: string;
   type: string;
-  icon: string;
   supportGpu: boolean;
 }
 
@@ -186,7 +183,6 @@ export function serializeStack(stack: Stack): SerializedStack {
     name: stack.name,
     supportGpu: stack.supportGpu,
     humanReadableId: stack.humanReadableId,
-    icon: stack.icon,
     type: stack.type
   }
 }
@@ -272,7 +268,6 @@ export type SerializedInstance = {
   maxRequests?: number;
   monthlyPrice: number;
   allowGpu: boolean;
-  trialDays: number;
   cpuHrtz: number;
   maxBundleSizeMb: number;
   ramMb: number;
@@ -287,7 +282,6 @@ export function serializeInstance(instance: Instance): SerializedInstance {
     maxRequests: instance.maxRequests,
     allowGpu: instance.enableGpu,
     cpuHrtz: instance.cpuHrtz,
-    trialDays: instance.trialDays,
     maxBundleSizeMb: instance.maxBundleSizeMb,
     ramMb: instance.ramMb
   }
@@ -332,26 +326,6 @@ export function serializedPaymentMethod(id: string, paymentMethod: Stripe.Stripe
     exp_month: paymentMethod.exp_month,
     isDefault: true,
     country: paymentMethod.country
-  }
-}
-
-export type SerializedPlan = {
-  id: string;
-  name: string;
-  price: number;
-  features: PlanFeatures;
-  trialDays: number;
-}
-
-export function serializePlan(plan?: Plan): SerializedPlan {
-  if(!plan) return null
-
-  return {
-    id: plan.id,
-    name: plan.name,
-    price: plan.price,
-    trialDays: plan.trialDays,
-    features: plan.features
   }
 }
 

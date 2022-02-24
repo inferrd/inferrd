@@ -38,9 +38,6 @@ export class Instance extends BaseEntity {
   @Column({ nullable: true })
   priceId: string;
 
-  @Column({ default: 0 })
-  trialDays: number;
-
   @Column({ default: 'gpu1' })
   datacenter: string;
 

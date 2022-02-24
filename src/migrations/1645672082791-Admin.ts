@@ -4,13 +4,13 @@ import { customAlphabet } from "nanoid";
 
 const nanoid = customAlphabet('1234567890abcdef', 20)
 
-export class Stacks1645672082790 implements MigrationInterface {
+export class Admin1645672082791 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
       const hash = await bcrypt.hash('admin', 12) 
 
       queryRunner.query(
-        `INSERT INTO "users" (email, "passwordHash", "apiKey", "isAdmin", "createdAt", "updatedAt")
+        `INSERT INTO "user" (email, "passwordHash", "apiKey", "isAdmin", "createdAt", "updatedAt")
         VALUES ('admin', '${hash}', 'personal_${nanoid()}', true, NOW(), NOW())`
       )
     }
