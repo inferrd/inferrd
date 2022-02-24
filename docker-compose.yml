@@ -72,7 +72,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     environment:
-      - DATABASE_URL=postgres://inferrd:inferrd@localhost:5432/inferrd
+      - DATABASE_URL=postgres://inferrd:inferrd@localhost:5433/inferrd
       - REDIS_URL=redis://localhost:6379/0
       - NOMAD_SERVER=http://localhost:4646
       - DEBUG=inferrd/*
