@@ -1,0 +1,2 @@
+backend: "onnxruntime"
+platform: "onnxruntime_onnx"
