@@ -195,6 +195,10 @@ export async function deployVersion(version: Version): Promise<string> {
 
   const jsonDescription = await parseHCL(jobHCL)
 
+  if (jsonDescription.job == null) {
+    throw new Error('Invalid job description')
+  }
+
   const job = await superagent.post(`${API_ENDPOINT}/v1/jobs`).set('X-Nomad-Token', API_TOKEN).send({
     Job: jsonDescription
   })
@@ -207,6 +211,10 @@ export async function deployService(service: Service): Promise<string> {
 
   const jsonDescription = await parseHCL(jobHCL)
 
+  if (jsonDescription.job == null) {
+    throw new Error('Invalid job description')
+  }
+  
   const job = await superagent.post(`${API_ENDPOINT}/v1/jobs`).set('X-Nomad-Token', API_TOKEN).send({
     Job: jsonDescription
   })
@@ -383,7 +391,8 @@ export async function parseHCL(hcl: string) {
 
     return response.body
   } catch (e) {
-    log('Error when parsing HCL', hcl, e.response.text)
+    log('Error when parsing HCL', hcl, e.response?.text)
+    return null
   }
 }
 

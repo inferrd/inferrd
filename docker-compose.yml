@@ -3,17 +3,25 @@ version: '3'
 services:
   nomad:
     image: multani/nomad
-    command: agent -dev -config=/etc/nomad/local.conf
+    command: agent -dev
     privileged: true
-    network_mode: host
+    ports:
+      - "4646:4646"
+      - "4647:4647"
+      - "4648:4648"
     environment:
       NOMAD_LOCAL_CONFIG: |
+        bind_addr = "0.0.0.0"
+        datacenter = "dc1"
         data_dir = "/nomad/data/"
+        plugin "docker" {
+          config {
+          }
+        }
 
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:rw
       - /tmp:/tmp
-      - ./nomad:/etc/nomad/
   
   db:
     image: postgres
@@ -29,23 +37,23 @@ services:
     image: redis
     restart: always
 
-  # elastic:
-  #   image: elasticsearch:8.0.0
-  #   ports:
-  #     - "9200:9200"
-  #     - "9300:9300"
-  #   environment:
-  #     - "discovery.type=single-node"
-  #   restart: always
+  # # elastic:
+  # #   image: elasticsearch:8.0.0
+  # #   ports:
+  # #     - "9200:9200"
+  # #     - "9300:9300"
+  # #   environment:
+  # #     - "discovery.type=single-node"
+  # #   restart: always
 
-  # fluent:
-  #   image: fluent/fluentd
-  #   command: sh ./local/entrypoint.sh
-  #   ports:
-  #     - "24224:24224"
-  #   restart: always
-  #   volumes:
-  #     - ./fluentd:/etc/fluent/
+  # # fluent:
+  # #   image: fluent/fluentd
+  # #   command: sh ./local/entrypoint.sh
+  # #   ports:
+  # #     - "24224:24224"
+  # #   restart: always
+  # #   volumes:
+  # #     - ./fluentd:/etc/fluent/
 
   api:
     image: inferrd/api
@@ -59,17 +67,18 @@ services:
     environment:
       - DATABASE_URL=postgres://inferrd:inferrd@db:5432/inferrd
       - REDIS_URL=redis://redis:6379/0
-      - NOMAD_ADDR=http://nomad:4646
+      - NOMAD_SERVER=http://nomad:4646
       - DEBUG=inferrd/*
       - NODE_ENV=docker
-      - APP_HOST=http://localhost:3001
+      - APP_HOST=http://localhost:8080
       - API_HOST=http://localhost:3000
-      - DOCKER_HOST=http://api:3000
+      - DOCKER_HOST=http://host.docker.internal:3000
       - LOGS_ES=https://elastic:9200
+      - NOMAD_TOKEN=""
 
   ui:
     image: inferrd/ui
     ports:
-      - "3001:3001"
+      - "8080:3001"
     depends_on:
       - api

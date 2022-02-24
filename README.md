@@ -30,7 +30,7 @@ cd inferrd
 docker-compose up
 ```
 
-Now visit [http://localhost:3001](http://localhost:3001) and login with email `admin` and password `admin`.
+Now visit [http://localhost:8080](http://localhost:8080) and login with email `admin` and password `admin`.
 
 ## Features
 
