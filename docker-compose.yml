@@ -68,7 +68,6 @@ services:
       - db
       - redis
       - nomad
-      - elastic
     environment:
       - DATABASE_URL=postgres://inferrd:inferrd@db:5432/inferrd
       - REDIS_URL=redis://redis:6379/0
