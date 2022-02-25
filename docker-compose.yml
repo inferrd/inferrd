@@ -19,9 +19,9 @@ services:
           max_dynamic_port = 20050
         }
         advertise {
-          http = "{{ GetPrivateIP }}:4646"
-          rpc  = "{{ GetPrivateIP }}:4647"
-          serf = "{{ GetPrivateIP }}:4648"
+          http = "localhost:4646"
+          rpc  = "localhost:4647"
+          serf = "localhost:4648"
         }
         plugin "docker" {
           config {
