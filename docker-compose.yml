@@ -18,11 +18,6 @@ services:
           min_dynamic_port = 20000
           max_dynamic_port = 20050
         }
-        advertise {
-          http = "localhost:4646"
-          rpc  = "localhost:4647"
-          serf = "localhost:4648"
-        }
         plugin "docker" {
           config {
           }
@@ -78,6 +73,7 @@ services:
       - REDIS_URL=redis://redis:6379/0
       - NOMAD_SERVER=http://nomad:4646
       - DEBUG=inferrd/*
+      - MACHINE_NETWORK_ROUTE=${MACHINE_NETWORK_ROUTE}
       - NODE_ENV=docker
       - APP_HOST=http://localhost:8080
       - API_HOST=http://localhost:3000
