@@ -18,6 +18,11 @@ services:
           min_dynamic_port = 20000
           max_dynamic_port = 20050
         }
+        advertise {
+          http = "{{ GetPrivateIP }}:4646"
+          rpc  = "{{ GetPrivateIP }}:4647"
+          serf = "{{ GetPrivateIP }}:4648"
+        }
         plugin "docker" {
           config {
           }
