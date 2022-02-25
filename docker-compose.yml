@@ -19,9 +19,9 @@ services:
           max_dynamic_port = 20050
         }
         addresses {
-          http = "${NOMAD_IP}"
-          rpc = "${NOMAD_IP}"
-          serf = "${NOMAD_IP}"
+          http = "0.0.0.0"
+          rpc = "0.0.0.0"
+          serf = "0.0.0.0"
         }
         advertise = {
           http = "${NOMAD_IP}"
