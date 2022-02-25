@@ -31,7 +31,7 @@ Then run the following commands to get started:
 ```
 git clone https://github.com/inferrd/inferrd.git
 cd inferrd
-sh ./start.sh
+bash ./start.sh
 ```
 
 Now visit [http://localhost:8080](http://localhost:8080) and login with email `admin` and password `admin`.
