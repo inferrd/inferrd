@@ -18,6 +18,16 @@ services:
           min_dynamic_port = 20000
           max_dynamic_port = 20050
         }
+        addresses {
+          http = "${NOMAD_IP}"
+          rpc = "${NOMAD_IP}"
+          serf = "${NOMAD_IP}"
+        }
+        advertise = {
+          http = "${NOMAD_IP}"
+          rpc = "${NOMAD_IP}"
+          serf = "${NOMAD_IP}"
+        }
         plugin "docker" {
           config {
           }
