@@ -443,8 +443,8 @@ export async function getEndpointForVersion(version: Version) {
   const nodeId = alloc.NodeID
 
   const node = await getNode(nodeId)
-
-  let ip = node?.HTTPAddr.split(':')[0]
+  
+  let ip = process.env.MACHINE_IP
 
   const port = alloc?.AllocatedResources?.Shared?.Networks[0]?.DynamicPorts[0].Value
 
@@ -470,7 +470,7 @@ export async function getEndpointForService(service: Service) {
 
   const node = await getNode(nodeId)
 
-  let ip = '172.17.0.1'
+  let ip = process.env.MACHINE_IP
 
   const port = alloc?.AllocatedResources?.Shared?.Networks[0]?.DynamicPorts[0].Value
 
