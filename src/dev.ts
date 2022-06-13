@@ -4,6 +4,7 @@ if (nodeVersion < 18) {
     throw new Error('You must use Node 18 or higher to use this app.')
 }
 
+// load environment from .env file
 require('dotenv').config()
 
 import logger from './logger'

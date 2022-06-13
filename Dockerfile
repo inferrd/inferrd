@@ -1,4 +1,4 @@
-FROM node:16-alpine
+FROM node:18-alpine
 
 WORKDIR /usr/app
 
@@ -7,7 +7,7 @@ COPY . .
 RUN yarn --pure-lockfile \
   && yarn cache clean \
   && yarn run build \
-  && rm -rf src
+  && rm -rf src 
 
 CMD ["yarn", "start"]
 

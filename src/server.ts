@@ -1,5 +1,3 @@
-require('dotenv').config()
-
 import 'reflect-metadata';
 import express, { Request, Response } from "express";
 import superagent from 'superagent'
