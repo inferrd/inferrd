@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "http-server-spa dist index.html 3001"
   },
-  "author": "Inferrd Inc.",
+  "author": "Inferrd",
   "dependencies": {
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.5",
