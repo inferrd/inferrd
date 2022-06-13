@@ -64,8 +64,6 @@ export async function checkNomadStatus() {
 
       const taskGroups = Object.keys(deployment.TaskGroups ?? {})
 
-      console.log('taskgroups=', taskGroups)
-
       let statusMap: Record<string, VersionDeploymentStatus> = {
         'running': VersionDeploymentStatus.RUNNING,
         'failed': VersionDeploymentStatus.FAILED,

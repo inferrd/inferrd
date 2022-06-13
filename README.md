@@ -62,6 +62,7 @@ Requirements:
 - Make sure you have [Postgres v12](https://www.postgresql.org/) running on port 5432
 - Make sure [Docker](https://www.docker.com/) is running properly on your machine
 - [Nomad](https://www.nomadproject.io/) installed. (`brew install nomad` on Mac for quick install)
+- [Consul](https://www.consul.io/) installed. (`brew install consul` on Mac for quick install)
 - [Redis](https://redis.io) installed and running. (`brew install redis` on Mac for quick install)
 
 Database setup: Create a user `inferrd` with password `inferrd` and a database called `inferrd`:
@@ -78,6 +79,13 @@ First, Nomad needs to be running on your machine:
 ```
 $ yarn run nomad
 ```
+
+Then, Consul needs to be running on your machine:
+
+```
+$ yarn run consul
+```
+
 
 Then, you will need to run the backend:
 
