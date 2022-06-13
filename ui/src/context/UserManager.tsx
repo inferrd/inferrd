@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import { ApiUser } from '../api.types'
 
 export type UserContextProps = {
@@ -9,6 +9,7 @@ export const UserContext = React.createContext<UserContextProps>(null)
 
 export type UserManagerProps = {
   user: ApiUser;
+  children: ReactElement;
 }
 
 const UserManager: React.FC<UserManagerProps> = (props) => {

@@ -2,6 +2,7 @@ import React from 'react'
 
 type Props = {
   className?: string;
+  children: React.ReactNode;
 }
 
 const InlineCode: React.FC<Props> = ({ children, className }) => {

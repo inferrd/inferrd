@@ -47,10 +47,49 @@ Now visit [http://localhost:8080](http://localhost:8080) and login with email `a
 
 ## Community support
 
-For general help using Inferrd, please refer to the official Inferrd documentation. For additional help, you can use one of these channels to ask a question:
-
-* [Discord](https://discord.gg/EequCErc6s) \(For live discussion with the Community and Inferrd team\)
+For general help using Inferrd, please refer to the official Inferrd documentation. For additional help, you can use one this repository to open issues.
 
 ## Entreprise Edition
 
 Are you looking for support and more advanced features such as RBAC, AutoScale, Multi-node deployments and A/B testing? [Contact us](mailto:theo@inferrd.com).
+
+## Development
+
+Run Inferrd locally, from source, to be able to make improvements, fix bugs etc.
+
+Requirements:
+
+- Make sure you have [Postgres v12](https://www.postgresql.org/) running on port 5432
+- Make sure [Docker](https://www.docker.com/) is running properly on your machine
+- [Nomad](https://www.nomadproject.io/) installed. (`brew install nomad` on Mac for quick install)
+- [Redis](https://redis.io) installed and running. (`brew install redis` on Mac for quick install)
+
+Database setup: Create a user `inferrd` with password `inferrd` and a database called `inferrd`:
+
+```
+> psql
+postgres=# create database inferrd;
+postgres=# create user inferrd with encrypted password 'inferrd';
+postgres=# grant all privileges on database inferrd to inferrd;
+```
+
+Then, you will need to run the backend:
+
+```
+# First install dependencies
+$ yarn # install all dependencies
+
+# Then in 2 separate terminals, run both Nomad and Inferrd
+$ yarn run nomad # start Nomad in Terminal 1
+$ yarn run dev # start Inferrd in Terminal 2
+```
+
+Finally, start the frontend:
+
+```
+$ cd ui # the frontend is in the ui folder
+$ yarn # install all dependencies
+$ yarn run dev # start the frontend
+```
+
+Now visit [http://localhost:8080](http://localhost:8080) and login with email `admin` and password `admin`.

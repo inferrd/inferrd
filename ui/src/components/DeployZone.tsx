@@ -72,7 +72,7 @@ const DeployZone: React.FC<Props> = ({ title, service }) => {
   const [status, setStatus] = useState<string>(null)
   const [isError, setIsError] = useState<boolean>(false)
 
-  const onUploadProgress = useCallback(progress => {
+  const onUploadProgress = useCallback((progress: any) => {
     setStatus(Math.floor(progress.percent * 100) / 100 + '%')
   }, [])
 

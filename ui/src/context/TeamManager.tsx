@@ -27,7 +27,11 @@ const OptionHeader = styled.div`
 
 export const TeamContext = React.createContext<TeamContextProps>(null)
 
-export const TeamManager: React.FC = (props) => {
+type Props = {
+  children: React.ReactNode;
+}
+
+export const TeamManager: React.FC<Props> = (props) => {
   const { data: teams } = useSWR<ApiTeam[]>('/teams', getFetcher)
   const { user } = useContext(UserContext)
   const [teamName, setTeamName] = useState<string>('')

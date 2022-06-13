@@ -1,7 +1,5 @@
 node_modules
-.env
 dist
 env_prod.yaml
 yarn.lock
 s3
-nomad

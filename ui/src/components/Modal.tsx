@@ -2,6 +2,7 @@ import React from 'react'
 
 type Props = {
   onClickCurtain: () => void;
+  children: React.ReactNode;
 }
 
 const Modal: React.FC<Props> = ({ children, onClickCurtain }) => {

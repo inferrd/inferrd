@@ -41,6 +41,7 @@ requestRouter.get(
     const offset = req.query.page ? Number(req.query.page) * limit : 0
 
     const requests = await Request.find({
+      // @ts-ignore
       where: where,
       order: {
         createdAt: 'DESC'

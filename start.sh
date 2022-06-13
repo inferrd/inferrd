@@ -19,9 +19,8 @@ elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
     exit
 fi
 
-if ! command -v docker-compose &> /dev/null
-then
-    echo "docker-compose could not be found. Please install it."
+if ! command -v docker-compose &> /dev/null ; then
+    echo 'Docker-compose is not installed. Please install it to run Inferrd.'
     exit
 fi
 
