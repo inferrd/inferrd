@@ -3,6 +3,7 @@ name: Frontend Docker Image
 on:
   push:
     branches: [ "main" ]
+    paths: [ "ui/**/*" ]
   pull_request:
     branches: [ "main" ]
 
