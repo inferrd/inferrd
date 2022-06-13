@@ -47,11 +47,11 @@ Now visit [http://localhost:8080](http://localhost:8080) and login with email `a
 
 ## Community support
 
-For general help using Inferrd, please refer to the official Inferrd documentation. For additional help, you can use one this repository to open issues.
+For general help using Inferrd, please refer to the official [Inferrd documentation](https://docs.inferrd.com/). For additional help, you can use one this repository to open issues.
 
-## Entreprise Edition
+## Entreprise Support
 
-Are you looking for support and more advanced features such as RBAC, AutoScale, Multi-node deployments and A/B testing? [Contact us](mailto:theo@inferrd.com).
+Are you looking for support? [Contact us](mailto:theo@inferrd.com).
 
 ## Development
 
