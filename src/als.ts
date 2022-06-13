@@ -1,6 +1,6 @@
 import {User} from "./entity/User";
 
-const { AsyncLocalStorage } = require('async_hooks')
+import { AsyncLocalStorage } from 'node:async_hooks';
 import { Request, Response, NextFunction } from 'express'
 import { Key } from "./entity/Key";
 
@@ -26,7 +26,7 @@ export async function asyncLocalStorageMiddleware(req: any, res: Response, next:
 
 export function updateContext(context: RequestContext) {
   ctxStateALS.enterWith({
-    ...ctxStateALS.getStore(),
+    ...ctxStateALS.getStore() as RequestContext,
     ...context
   })
 }

@@ -1,5 +1,5 @@
 import { AsyncRouter } from "express-async-router";
-import { assertCurrentUserIsPartOfTeam } from "../access";
+import { assertCurrentUserIsPartOfTeam, isUserPartOfTeam } from "../access";
 import { getRequestContext } from "../als";
 import { Service, ServiceDesiredStatus } from "../entity/Service";
 import { Version, VersionDeploymentStatus } from "../entity/Version";
@@ -136,9 +136,14 @@ versionRouter.post(
 
     const team = await service.team
 
-    await assertCurrentUserIsPartOfTeam(team)
+    // @ts-ignore
+    const user = req.headers.user as User
 
-    const { user } = getRequestContext()
+    const isPartOfTeam = await isUserPartOfTeam(user, team)
+
+    if(!isPartOfTeam) {
+      throw new Error('Forbidden')
+    }
 
     const existingVersions = await service.versions
 

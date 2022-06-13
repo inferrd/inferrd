@@ -120,6 +120,7 @@ module.exports = {
         }),
         new webpack.EnvironmentPlugin({
           APP_ENV: 'local',
+          API_PORT: '3000',
           API_ENDPOINT: 'http://localhost:3000',
           API_HOST: 'http://localhost:3000',
           STRIPE_KEY: 'pk_test_b3zhRE5iSxQs03xLiWoFa925'

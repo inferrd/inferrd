@@ -73,15 +73,17 @@ postgres=# create user inferrd with encrypted password 'inferrd';
 postgres=# grant all privileges on database inferrd to inferrd;
 ```
 
+First, Nomad needs to be running on your machine:
+
+```
+$ yarn run nomad
+```
+
 Then, you will need to run the backend:
 
 ```
-# First install dependencies
 $ yarn # install all dependencies
-
-# Then in 2 separate terminals, run both Nomad and Inferrd
-$ yarn run nomad # start Nomad in Terminal 1
-$ yarn run dev # start Inferrd in Terminal 2
+$ yarn run dev # start Inferrd
 ```
 
 Finally, start the frontend:

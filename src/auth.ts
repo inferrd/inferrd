@@ -33,6 +33,9 @@ export async function authenticateClient(req: Request, res: Response, next: Next
         updateContext({
           user
         })
+
+        // @ts-ignore
+        req.headers.user = user;
       
         return next()
       } else if(key) {
@@ -66,6 +69,9 @@ export async function authenticateClient(req: Request, res: Response, next: Next
           user
         })
 
+        // @ts-ignore
+        req.headers.user = user;
+
         return next()
       } catch(e) {
         // skip
@@ -90,6 +96,9 @@ export async function authenticateClient(req: Request, res: Response, next: Next
       updateContext({
         user
       })
+      
+      // @ts-ignore
+      req.headers.user = user;
 
       return next()
     } catch(e) {
