@@ -7,7 +7,7 @@ export class Stacks1645672082790 implements MigrationInterface {
         `INSERT INTO stack (name, "humanReadableId", "dockerUrl", "available", "createdAt", "updatedAt", "supportGpu")
         VALUES ('Scikit-Learn', 'sklearn:v8', 'inferrd/sklearn:latest', true, NOW(), NOW(), false),
         ('TensorFlow 2.0', 'tensorflow:latest', 'inferrd/tensorflow:latest', true, NOW(), NOW(), true),
-        ('ONNX', 'onnx:latest', 'inferrd/onnx:latest', true, NOW(), NOW(), true)`
+        ('ONNX', 'onnx:latest', 'onnx:latest', true, NOW(), NOW(), true)`
       )
     }
 
