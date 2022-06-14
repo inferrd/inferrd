@@ -1,4 +1,4 @@
-name: Frontend Docker Image
+name: TensorFlow Runtime Docker Image
 
 on:
   push:

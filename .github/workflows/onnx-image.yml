@@ -1,4 +1,4 @@
-name: Frontend Docker Image
+name: ONNX Runtime Docker Image
 
 on:
   push:
