@@ -3,6 +3,7 @@ name: Backend Docker Image
 on:
   push:
     branches: [ "main" ]
+    paths: [ "src/**/*", "Dockerfile", "package.json", ".dockerignore" ]
   pull_request:
     branches: [ "main" ]
 
