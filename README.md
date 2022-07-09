@@ -112,4 +112,4 @@ Under the hood, Inferrd uses Nomad to orchestrate containers to run your models.
 
 **Other bugs**
 
-Open an issue so we can add it to the list!
+[Open an issue](https://github.com/inferrd/inferrd/issues) so we can add it to the list!
