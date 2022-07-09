@@ -103,3 +103,13 @@ $ yarn run dev # start the frontend
 ```
 
 Now visit [http://localhost:8080](http://localhost:8080) and login with email `admin` and password `admin`.
+
+## Troubleshooting
+
+**Models aren't deploying, or crashing**
+
+Under the hood, Inferrd uses Nomad to orchestrate containers to run your models. You can access the Nomad admin panel directly at [http://localhost:4646](http://localhost:4646). This should help you debug models that are crashing or not responding.
+
+**Other bugs**
+
+Open an issue so we can add it to the list!

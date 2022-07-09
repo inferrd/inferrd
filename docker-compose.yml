@@ -5,6 +5,8 @@ services:
     image: inferrd/nomad
     command: agent -dev -data-dir=/tmp/nomad/data
     privileged: true
+    networks: 
+      - "inferrd"
     ports:
       - "4646:4646"
       - "4647:4647"
@@ -41,6 +43,8 @@ services:
   db:
     image: postgres
     restart: always
+    networks: 
+      - "inferrd"
     ports:
       - "5433:5432"
     environment:
@@ -72,6 +76,8 @@ services:
 
   api:
     image: inferrd/api
+    networks: 
+      - "inferrd"
     ports:
       - "3000:3000"
     depends_on:
@@ -93,7 +99,14 @@ services:
 
   ui:
     image: inferrd/ui
+    networks: 
+      - "inferrd"
     ports:
       - "8080:3001"
     depends_on:
       - api
+
+networks:
+  inferrd:
+    name: inferrd
+    driver: bridge

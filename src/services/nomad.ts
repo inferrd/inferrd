@@ -79,6 +79,8 @@ export async function getHCL(service: Service): Promise<string> {
       }
       
       network {
+        mode = "bridge"
+
         port "http" {
           to = 9001
         }
