@@ -2,6 +2,10 @@
 
 [![GitHub stars](https://img.shields.io/github/stars/inferrd/inferrd?style=social&label=Star&maxAge=2592000)](https://GitHub.com/inferrd/inferrd/stargazers/) [![License](https://img.shields.io/static/v1?label=license&message=ELv2&color=brightgreen)](https://github.com/inferrd/inferrd/tree/main/LICENSE)
 
+![GitHub issues](https://img.shields.io/github/issues/inferrd/inferrd)
+
+![Docker Pulls](https://img.shields.io/docker/pulls/inferrd/api)
+
 ![](assets/logo.png)
 
 **ML Deployment made simple, scalable and collaborative**  
